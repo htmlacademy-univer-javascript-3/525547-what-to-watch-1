@@ -1,16 +1,10 @@
+import App from './components/app/app';
+import { filmsData } from './mocks/films';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {Provider} from 'react-redux';
-import {store} from './store';
-import App from './components/app/app';
-import ErrorMessage from './components/error-message/error-message';
-import { fetchFilmsAction, checkAuthAction, fetchPromoFilmAction, fetchFavoriteFilmsAction} from './store/api-actions';
+import { reviewsData } from './mocks/reviews';
 
-store.dispatch(fetchFilmsAction());
-store.dispatch(fetchPromoFilmAction());
-store.dispatch(checkAuthAction());
-store.dispatch(fetchFavoriteFilmsAction());
-
+const favoriteFilmsData = filmsData.filter((film) => film.isFavorite );
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -18,9 +12,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Provider store = {store}>
-      <ErrorMessage />
-      <App />
-    </Provider>
+    <App
+      films = {filmsData}
+      reviews = {reviewsData}
+      myFilms = {favoriteFilmsData}
+    />
   </React.StrictMode>,
 );

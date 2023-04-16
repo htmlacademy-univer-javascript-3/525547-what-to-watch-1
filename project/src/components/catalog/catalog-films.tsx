@@ -1,64 +1,36 @@
-import { useEffect } from 'react';
-import CatalogGenresList from './catalog-genres-list';
+import CatalogGenres from './catalog-genres';
 import CatalogMoreBtn from './catalog-more-btn';
-import { GenreName } from '../../const';
+import { Films } from '../../types/films';
 import FilmCard from '../film-card/film-card';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import { resetRenderedFilms } from '../../store/action';
 
+const FILMS_SHOWN = 8;
 
-function CatalogFilms(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const activeGenre = useAppSelector((state) => state.activeGenre);
-  const films = useAppSelector((state) => state.films);
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoading);
-  const renderedFilmsQuantity = useAppSelector((state) => state.renderedFilmsQuantity);
+type FilmsCatalogProp = {
+  films: Films[];
+}
 
-  useEffect(() => () => {
-    dispatch(resetRenderedFilms());
-  }, [dispatch]);
-
-
-  if (isFilmsDataLoading) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
-
-  const filmsGenres = ['All genres'];
-  const filmsGenresSet = Array.from(new Set(films.map((film) => film.genre)));
-  filmsGenresSet.forEach((genre) => filmsGenres.push(genre));
-
+function CatalogFilms({films}: FilmsCatalogProp): JSX.Element {
+  const filmsShowed = films.slice(0,FILMS_SHOWN);
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-      <CatalogGenresList filmsGenres={filmsGenres} />
+      <CatalogGenres />
       <div className="catalog__films-list">
-        {films.slice(0, renderedFilmsQuantity)
-          .filter((film) => {
-            if (activeGenre === GenreName.ALL_GENRES) {
-              return true;
-            }
-            return film.genre === activeGenre;
-          })
-          .map((film) => (
-            <FilmCard
-              key={film.id}
-              id={film.id}
-              name={film.name}
-              previewImage={film.previewImage}
-              posterImage={film.posterImage}
-              previewVideoLink={film.previewVideoLink}
-            />
-          )
-          )}
+        {filmsShowed.map((film) => (
+          <FilmCard
+            key={film.id}
+            id={film.id}
+            name={film.name}
+            previewImage={film.previewImage}
+            posterImage={film.posterImage}
+            previewVideoLink={film.previewVideoLink}
+          />
+        )
+        )}
       </div>
-      {/* TODO: доработать функциональность кнопки. при переключении фильтров - фигня*/}
-      {renderedFilmsQuantity >= films.length ? null :
-        <CatalogMoreBtn />}
+
+      <CatalogMoreBtn />
     </section>
   );
 }
