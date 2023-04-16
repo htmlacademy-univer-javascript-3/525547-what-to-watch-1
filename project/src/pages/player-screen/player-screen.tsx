@@ -1,8 +1,13 @@
-import { useAppSelector } from '../../hooks';
+import { Films } from '../../types/films';
+import { useParams } from 'react-router-dom';
 
+type PlayerProps = {
+  films: Films[];
+}
 
-function PlayerScreen(): JSX.Element {
-  const filmChoosed = useAppSelector((state) => state.choosedFilm);
+function PlayerScreen({films}: PlayerProps): JSX.Element {
+  const {id} = useParams();
+  const filmChoosed = films.find((film) => film.id === Number(id));
   return (
     <div className="player">
       <video src={filmChoosed?.videoLink} className="player__video" poster={filmChoosed?.backgroundImage}></video>

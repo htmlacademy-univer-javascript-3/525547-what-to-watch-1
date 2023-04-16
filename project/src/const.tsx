@@ -1,11 +1,8 @@
 export enum AppRoute {
   Main = '/',
-  Genre = '/:genre',
   SignIn = '/login',
   MyList = '/mylist',
   Film = '/films/:id',
-  FilmReviews = '/films/:id/reviews',
-  FilmDetails = '/films/:id/details',
   AddReview = '/films/:id/review',
   Player = '/player/:id'
 }
@@ -45,12 +42,3 @@ export function FilmRating(rating: number | undefined): string {
   }
   return 'No rating';
 }
-
-export enum GenreName {
-  ALL_GENRES = 'All genres',
-}
-
-export const TIMEOUT_SHOW_ERROR = 2000;
-
-export const DEFAULT_RENDERED_FILMS_QUANTITY = 8;
-export const FILMS_TO_RENDER_QUANTITY = 8;

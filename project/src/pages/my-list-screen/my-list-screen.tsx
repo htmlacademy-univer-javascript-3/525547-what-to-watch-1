@@ -1,11 +1,16 @@
 import AuthorizedUserHeader from '../../components/user-header/authorized-user-header';
+import { Films } from '../../types/films';
 import FilmCard from '../../components/film-card/film-card';
 import Footer from '../../components/footer/footer';
-import { useAppSelector } from '../../hooks';
+import { useState } from 'react';
 
+type MyListProp = {
+  myFilms: Films[];
+}
 
-function MyListScreen(): JSX.Element {
-  const myFilms = useAppSelector((state) => state.favoriteFilms);
+function MyListScreen({myFilms}: MyListProp): JSX.Element {
+  //eslint-disable-next-line
+  const [_, setActiveFilm] = useState(0);
   return (
     <div className="user-page">
       <AuthorizedUserHeader myFilms={myFilms} />
@@ -16,6 +21,7 @@ function MyListScreen(): JSX.Element {
         <div className="catalog__films-list">
           {myFilms.map((film) =>(
             <FilmCard
+              onMouseEnterHandler={() => {setActiveFilm(film.id);}}
               key={film.id}
               id={film.id}
               name={film.name}

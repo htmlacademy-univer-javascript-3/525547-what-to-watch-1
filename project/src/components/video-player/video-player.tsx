@@ -7,7 +7,7 @@ type VideoPlayerProp = {
   posterImage: string;
 }
 
-function PreviewVideoPlayer({posterImage, previewVideoLink}: VideoPlayerProp): JSX.Element {
+function VideoPlayer({posterImage, previewVideoLink}: VideoPlayerProp): JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -30,4 +30,4 @@ function PreviewVideoPlayer({posterImage, previewVideoLink}: VideoPlayerProp): J
   );
 }
 
-export default PreviewVideoPlayer;
+export default VideoPlayer;
